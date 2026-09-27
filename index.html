@@ -33,7 +33,7 @@ a {color:inherit;text-decoration:none}
 .filters::-webkit-scrollbar {display:none}
 .filter {white-space:nowrap;border:1px solid #333;background:#0d0d0d;color:#ddd;border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:700;font-size:12px}
 .filter.active,.filter:hover {background:var(--yellow);border-color:var(--yellow);color:#000}
-.menu {max-width:1100px;margin:auto;padding:10px 18px 90px}
+.menu {max-width:1100px;margin:auto;padding:10px 18px 90px;scroll-margin-top:130px}
 .category {margin-top:34px}
 .category-title {display:flex;align-items:center;gap:12px;font-family:Anton,sans-serif;font-size:28px;text-transform:uppercase;letter-spacing:.7px}
 .category-title span {color:var(--white)}
@@ -337,7 +337,7 @@ a {color:inherit;text-decoration:none}
 .cart-bar[hidden] { display:none; }
 .cart-bar button { display:flex;align-items:center;justify-content:space-between;gap:14px;width:min(100%,580px);margin:auto;padding:13px 18px;border:0;border-radius:11px;background:var(--yellow);color:#000;font:800 13px Montserrat,Arial,sans-serif;cursor:pointer; }
 .cart-bar strong { white-space:nowrap; }
-.cart-open { padding-bottom:86px; }
+.cart-open { padding-bottom:calc(96px + env(safe-area-inset-bottom)); }
 .cart-dialog { width:min(100% - 24px,540px);max-height:min(85dvh,750px);border:1px solid #454545;border-radius:18px;background:#111;color:#fff;padding:0;box-shadow:0 25px 80px #000b; }
 .cart-dialog::backdrop { background:#000b; }
 .cart-dialog-inner { padding:20px;max-height:min(85dvh,750px);overflow-y:auto; }
@@ -350,6 +350,10 @@ a {color:inherit;text-decoration:none}
 .cart-line strong { display:block;font-size:13px;line-height:1.4; }
 .cart-line small { display:block;color:#bbb;margin-top:5px;line-height:1.4;overflow-wrap:anywhere; }
 .cart-line button { align-self:flex-start;border:1px solid #555;border-radius:7px;background:#191919;color:#fff;padding:7px;font:700 11px Montserrat,Arial,sans-serif;cursor:pointer; }
+.cart-line-main { min-width:0;flex:1; }
+.cart-quantity { display:inline-flex;align-items:center;gap:10px;margin-top:10px;border:1px solid #494949;border-radius:9px;overflow:hidden; }
+.cart-quantity button { margin:0;border:0;border-radius:0;background:#252525;min-width:34px;min-height:32px;font-size:17px; }
+.cart-quantity span { min-width:13px;text-align:center;font-size:12px;font-weight:800; }
 .cart-total { display:flex;justify-content:space-between;font-weight:800;margin:15px 0; }
 .cart-total strong { color:var(--yellow); }
 .fulfillment-choice { border:0;padding:0;margin:19px 0 12px;min-width:0; }
@@ -970,13 +974,13 @@ a {color:inherit;text-decoration:none}
   </div>
 </main>
 <div class="cart-bar" id="cartBar" hidden>
-  <button type="button" onclick="openOrderDialog()" aria-label="Ver pedido e finalizar no WhatsApp">
-    <span id="cartCount">Ver pedido</span><strong id="cartBarTotal"></strong>
+  <button type="button" onclick="openOrderDialog()" aria-label="Abrir carrinho de pedidos">
+    <span>🛒 <span id="cartCount" aria-live="polite">Carrinho (0)</span></span><strong id="cartBarTotal">R$ 0,00</strong>
   </button>
 </div>
 <dialog id="orderDialog" class="cart-dialog" aria-labelledby="orderTitle">
   <div class="cart-dialog-inner">
-    <div class="cart-top"><h2 id="orderTitle">Seu pedido</h2><button type="button" class="cart-close" onclick="closeOrderDialog()" aria-label="Fechar pedido">✕</button></div>
+    <div class="cart-top"><h2 id="orderTitle">🛒 Seu carrinho</h2><button type="button" class="cart-close" onclick="closeOrderDialog()" aria-label="Fechar carrinho">✕</button></div>
     <p class="cart-intro">Revise os itens e as observações antes de abrir o WhatsApp.</p>
     <ul id="cartLines" class="cart-lines"></ul>
     <div class="cart-total"><span>Itens</span><strong id="cartTotal">R$ 0,00</strong></div>
@@ -1000,7 +1004,7 @@ a {color:inherit;text-decoration:none}
     <p id="cartWarning" class="delivery-warning" role="alert"></p>
     <div class="cart-actions">
       <a class="send-order" id="whatsappOrderLink" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Enviar pedido pelo WhatsApp</a>
-      <button type="button" class="continue-order" onclick="closeOrderDialog()">Continuar escolhendo</button>
+      <button type="button" class="continue-order" onclick="addMoreProducts()">＋ Adicionar mais produtos</button>
     </div>
   </div>
 </dialog>
@@ -1120,14 +1124,31 @@ function renderCart() {
     const li = document.createElement('li');
     li.className = 'cart-line';
     const details = document.createElement('div');
+    details.className = 'cart-line-main';
     const title = document.createElement('strong');
-    title.textContent = `${entry.quantity}× ${entry.product} — ${money(entry.price * entry.quantity)}`;
+    title.textContent = `${entry.product} — ${money(entry.price * entry.quantity)}`;
     details.append(title);
     if (entry.observation) {
       const note = document.createElement('small');
       note.textContent = `Observação: ${entry.observation}`;
       details.append(note);
     }
+    const quantity = document.createElement('div');
+    quantity.className = 'cart-quantity';
+    const decrease = document.createElement('button');
+    decrease.type = 'button';
+    decrease.textContent = '−';
+    decrease.setAttribute('aria-label',`Diminuir quantidade de ${entry.product}`);
+    decrease.addEventListener('click',() => adjustQuantity(index,-1));
+    const amount = document.createElement('span');
+    amount.textContent = String(entry.quantity);
+    const increase = document.createElement('button');
+    increase.type = 'button';
+    increase.textContent = '+';
+    increase.setAttribute('aria-label',`Aumentar quantidade de ${entry.product}`);
+    increase.addEventListener('click',() => adjustQuantity(index,1));
+    quantity.append(decrease,amount,increase);
+    details.append(quantity);
     const remove = document.createElement('button');
     remove.type = 'button';
     remove.textContent = 'Remover';
@@ -1146,11 +1167,17 @@ function renderCart() {
   const total = cart.reduce((sum, entry) => sum + entry.price * entry.quantity,0);
   document.getElementById('cartTotal').textContent = money(total);
   document.getElementById('cartBarTotal').textContent = money(total);
-  document.getElementById('cartCount').textContent = `Ver pedido (${count} ${count === 1 ? 'item' : 'itens'})`;
-  document.getElementById('cartBar').hidden = count === 0;
-  document.body.classList.toggle('cart-open',count > 0);
+  document.getElementById('cartCount').textContent = `Carrinho (${count} ${count === 1 ? 'item' : 'itens'})`;
+  document.getElementById('cartBar').hidden = false;
+  document.body.classList.add('cart-open');
   document.getElementById('whatsappOrderLink').setAttribute('aria-disabled',String(count === 0));
   document.getElementById('cartWarning').style.display = 'none';
+}
+function adjustQuantity(index,change) {
+  if (!cart[index]) return;
+  cart[index].quantity += change;
+  if (cart[index].quantity <= 0) cart.splice(index,1);
+  renderCart();
 }
 function makeOrder(event, button) {
   event.preventDefault();
@@ -1173,6 +1200,14 @@ function openOrderDialog() {
   if (!dialog.open) dialog.showModal();
 }
 function closeOrderDialog() { document.getElementById('orderDialog').close(); }
+function addMoreProducts() {
+  closeOrderDialog();
+  search.value = '';
+  active = 'Todos';
+  buttons.forEach(btn => btn.classList.toggle('active',btn.dataset.filter === active));
+  update();
+  document.getElementById('menu').scrollIntoView({behavior:'smooth',block:'start'});
+}
 document.getElementById('orderDialog').addEventListener('click',event => {
   if (event.target.id === 'orderDialog') closeOrderDialog();
 });
