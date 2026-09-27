@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>Kiosk Beach — Cardápio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap');
+:root {
+  --bg:#050505; --card:#101010; --yellow:#ffd629; --yellow2:#f6c916;
+  --white:#fff; --muted:#bdbdbd; --line:#292929;
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {margin:0;background:radial-gradient(circle at top,#171717 0,#050505 42%);color:var(--white);font-family:Montserrat,Arial,sans-serif}
+a {color:inherit;text-decoration:none}
+.header {padding:28px 18px 18px;position:sticky;top:0;z-index:10;background:rgba(5,5,5,.92);backdrop-filter:blur(12px);border-bottom:1px solid #1d1d1d}
+.header-inner {max-width:1100px;margin:auto;display:flex;align-items:center;gap:18px}
+.logo {width:78px;height:78px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 28px rgba(255,214,41,.18)}
+.brand {font-family:Anton,sans-serif;font-size:34px;letter-spacing:1px;line-height:.95}
+.brand span {color:var(--yellow)}
+.subtitle {margin:6px 0 0;color:#aaa;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.hero {max-width:1100px;margin:0 auto;padding:44px 18px 22px;text-align:center}
+.hero h1 {font-family:Anton,sans-serif;font-size:clamp(42px,8vw,72px);margin:0;text-transform:uppercase;letter-spacing:1px}
+.hero h1 span {color:var(--yellow)}
+.hero p {color:#aaa;max-width:620px;margin:12px auto 24px;line-height:1.6}
+.search {max-width:650px;margin:auto;position:relative}
+.search input {width:100%;background:#111;border:1px solid #333;color:#fff;border-radius:999px;padding:16px 20px 16px 48px;outline:none;font-size:15px}
+.search input:focus {border-color:var(--yellow)}
+.search span {position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--yellow);font-size:20px}
+.filters {max-width:1100px;margin:12px auto 8px;padding:0 18px;display:flex;gap:8px;overflow:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar {display:none}
+.filter {white-space:nowrap;border:1px solid #333;background:#0d0d0d;color:#ddd;border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:700;font-size:12px}
+.filter.active,.filter:hover {background:var(--yellow);border-color:var(--yellow);color:#000}
+.menu {max-width:1100px;margin:auto;padding:10px 18px 90px}
+.category {margin-top:34px}
+.category-title {display:flex;align-items:center;gap:12px;font-family:Anton,sans-serif;font-size:28px;text-transform:uppercase;letter-spacing:.7px}
+.category-title span {color:var(--white)}
+.category-title i {height:2px;flex:1;background:linear-gradient(90deg,var(--yellow),transparent)}
+.grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.item {background:linear-gradient(145deg,#141414,#0b0b0b);border:1px solid var(--line);border-radius:16px;padding:17px;display:grid;grid-template-columns:1fr auto;gap:10px;transition:.2s;position:relative;overflow:hidden}
+.item:hover {transform:translateY(-2px);border-color:#555}
+.item h3 {font-size:15px;text-transform:uppercase;margin:0 0 6px;color:var(--yellow);font-weight:800}
+.desc {margin:0;color:#d0d0d0;font-size:12px;line-height:1.55}
+.price {font-family:Anton,sans-serif;color:#000;background:var(--yellow);align-self:start;border-radius:999px;padding:8px 11px;font-size:16px;white-space:nowrap}
+.order {grid-column:1/-1;background:#202020;border:1px solid #333;border-radius:8px;text-align:center;padding:7px 12px;color:#fff;font-family:inherit;font-weight:800;font-size:11px;transition:.2s;justify-self:end;min-width:64px;cursor:pointer}
+.order:hover {background:var(--yellow);color:#000}
+.note {color:#aaa;font-size:12px;margin:10px 2px}
+.footer {border-top:1px solid #222;background:#090909;padding:28px 18px 40px}
+.footer-inner {max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.info strong {display:block;color:var(--yellow);text-transform:uppercase;font-size:12px;margin-bottom:6px}
+.info p {margin:0;color:#ddd;line-height:1.6;font-size:13px}
+.whatsapp {border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;background:var(--yellow);color:#000;font-weight:900;padding:13px 18px;border-radius:999px;margin-top:12px}
+.empty {display:none;text-align:center;color:#999;padding:40px 10px}
+@media(max-width:700px) {
+  .header-inner {align-items:center}
+  .logo {width:62px;height:62px}
+  .brand {font-size:28px}
+  .grid {grid-template-columns:1fr}
+  .footer-inner {grid-template-columns:1fr}
+  .item {padding:15px}
+}
+
+/* ===== EXPERIÊNCIA MOBILE ===== */
+@media (max-width: 700px) {
+  body {
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .header {
+    padding: 10px 12px;
+    position: sticky;
+    top: 0;
+  }
+
+  .header-inner {
+    gap: 10px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+    border-width: 3px;
+  }
+
+  .brand {
+    font-size: 25px;
+  }
+
+  .subtitle {
+    font-size: 9px;
+    margin-top: 3px;
+  }
+
+  .hero {
+    padding: 28px 14px 14px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    line-height: .95;
+  }
+
+  .hero p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 10px auto 18px;
+  }
+
+  .search input {
+    height: 48px;
+    padding: 13px 16px 13px 44px;
+    font-size: 14px;
+  }
+
+  .filters {
+    position: sticky;
+    top: 73px;
+    z-index: 9;
+    margin: 0;
+    padding: 8px 12px;
+    background: rgba(5,5,5,.96);
+    border-bottom: 1px solid #222;
+  }
+
+  .filter {
+    padding: 9px 13px;
+    font-size: 11px;
+  }
+
+  .menu {
+    padding: 4px 12px 70px;
+  }
+
+  .category {
+    margin-top: 24px;
+  }
+
+  .category-title {
+    font-size: 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 10px;
+  }
+
+  .item {
+    padding: 14px;
+    border-radius: 13px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .item h3 {
+    font-size: 14px;
+    line-height: 1.15;
+    margin-bottom: 5px;
+  }
+
+  .desc {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .price {
+    font-size: 15px;
+    padding: 7px 10px;
+  }
+
+  .order {
+    padding: 6px 9px;
+    font-size: 10px;
+    min-width: 56px;
+    border-radius: 7px;
+  }
+
+  .footer {
+    padding: 24px 14px 34px;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .whatsapp {
+    width: 100%;
+    padding: 13px 16px;
+  }
+}
+
+
+.delivery-box {
+  max-width: 1100px;
+  margin: 18px auto 8px;
+  padding: 18px;
+  background: linear-gradient(145deg,#151515,#0b0b0b);
+  border: 1px solid #333;
+  border-radius: 16px;
+}
+.delivery-title {
+  color: var(--yellow);
+  font-family: Anton,sans-serif;
+  font-size: 23px;
+  text-transform: uppercase;
+}
+.delivery-box > p {
+  color: #aaa;
+  font-size: 12px;
+  margin: 5px 0 12px;
+}
+.delivery-fields {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 9px;
+}
+.delivery-fields input {
+  width: 100%;
+  background: #080808;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 9px;
+  padding: 12px;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+}
+.delivery-fields input:focus { border-color: var(--yellow); }
+.delivery-warning {
+  display: none;
+  color: #ffd629;
+  font-size: 11px;
+  margin-top: 8px;
+}
+@media(max-width:700px) {
+  .delivery-box { margin: 12px 12px 5px; padding: 14px; border-radius: 13px; }
+  .delivery-title { font-size: 21px; }
+  .delivery-fields { grid-template-columns: 1fr; gap: 8px; }
+  .delivery-fields input { height: 45px; font-size: 13px; }
+}
+
+
+.confirm-address {
+  margin-top: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--yellow);
+  color: #000;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.confirm-address:hover { transform: translateY(-1px); }
+
+.confirmed-address {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px solid #3d3d3d;
+  background: #0b0b0b;
+  border-radius: 10px;
+}
+.confirmed-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--yellow);
+  color: #000;
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+.confirmed-address div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+.confirmed-address strong {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+}
+.confirmed-address span {
+  display: block;
+  color: #aaa;
+  font-size: 11px;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.confirmed-address button {
+  background: transparent;
+  border: 1px solid #444;
+  color: #ddd;
+  border-radius: 7px;
+  padding: 7px 9px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+
+
+@media(max-width:700px) {
+  .confirm-address { width: 100%; height: 44px; }
+  .confirmed-address { align-items: flex-start; }
+  .confirmed-address button { flex: 0 0 auto; }
+}
+
+
+/* ===== OBSERVAÇÃO DO PEDIDO ===== */
+.item-note {
+  grid-column: 1 / -1;
+  width: 100%;
+  background: #080808;
+  color: #fff;
+  border: 1px solid #383838;
+  border-radius: 8px;
+  padding: 9px 10px;
+  outline: none;
+  font-family: inherit;
+  font-size: 11px;
+}
+.item-note:focus { border-color: var(--yellow); }
+.item-note::placeholder { color: #777; }
+.delivery-warning[role="alert"] { line-height:1.5; }
+.confirmed-address { flex-wrap:wrap; }
+.confirmed-address span { overflow-wrap:anywhere; }
+.cart-bar { position:fixed;z-index:20;bottom:0;left:0;right:0;padding:10px max(14px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));background:rgba(8,8,8,.96);border-top:1px solid #393939;box-shadow:0 -10px 30px #0008; }
+.cart-bar[hidden] { display:none; }
+.cart-bar button { display:flex;align-items:center;justify-content:space-between;gap:14px;width:min(100%,580px);margin:auto;padding:13px 18px;border:0;border-radius:11px;background:var(--yellow);color:#000;font:800 13px Montserrat,Arial,sans-serif;cursor:pointer; }
+.cart-bar strong { white-space:nowrap; }
+.cart-open { padding-bottom:86px; }
+.cart-dialog { width:min(100% - 24px,540px);max-height:min(85dvh,750px);border:1px solid #454545;border-radius:18px;background:#111;color:#fff;padding:0;box-shadow:0 25px 80px #000b; }
+.cart-dialog::backdrop { background:#000b; }
+.cart-dialog-inner { padding:20px;max-height:min(85dvh,750px);overflow-y:auto; }
+.cart-top { display:flex;justify-content:space-between;align-items:center;gap:10px; }
+.cart-top h2 { margin:0;color:var(--yellow);font:28px Anton,Arial,sans-serif;text-transform:uppercase; }
+.cart-close { border:1px solid #555;border-radius:8px;background:#222;color:#fff;font:700 13px Montserrat,Arial,sans-serif;padding:8px 11px;cursor:pointer; }
+.cart-intro,.cart-hint { color:#bdbdbd;font-size:12px;line-height:1.5; }
+.cart-lines { list-style:none;padding:0;margin:16px 0;border-top:1px solid #333; }
+.cart-line { display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #333; }
+.cart-line strong { display:block;font-size:13px;line-height:1.4; }
+.cart-line small { display:block;color:#bbb;margin-top:5px;line-height:1.4;overflow-wrap:anywhere; }
+.cart-line button { align-self:flex-start;border:1px solid #555;border-radius:7px;background:#191919;color:#fff;padding:7px;font:700 11px Montserrat,Arial,sans-serif;cursor:pointer; }
+.cart-total { display:flex;justify-content:space-between;font-weight:800;margin:15px 0; }
+.cart-total strong { color:var(--yellow); }
+.fulfillment-choice { border:0;padding:0;margin:19px 0 12px;min-width:0; }
+.fulfillment-choice legend { color:var(--yellow);font-size:13px;font-weight:800;margin-bottom:9px; }
+.fulfillment-options { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+.fulfillment-options label { display:flex;align-items:center;gap:8px;min-height:54px;padding:10px;border:1px solid #454545;border-radius:10px;background:#191919;font-size:12px;font-weight:800;cursor:pointer; }
+.fulfillment-options label:has(input:checked) { border-color:var(--yellow);background:#2b260c; }
+.fulfillment-options input { accent-color:var(--yellow);flex:none; }
+.fulfillment-detail { margin:0 0 14px;color:#ddd;font-size:12px;line-height:1.5; }
+.fulfillment-detail[hidden] { display:none; }
+.fulfillment-detail input { display:block;width:100%;min-height:44px;margin-top:6px;padding:11px;border:1px solid #555;border-radius:9px;background:#090909;color:#fff;font:13px Montserrat,Arial,sans-serif; }
+.fulfillment-detail input:focus { outline:1px solid var(--yellow); }
+.fulfillment-detail button { margin-top:9px;padding:8px 10px;border:1px solid #555;border-radius:8px;background:#222;color:#fff;font:700 11px Montserrat,Arial,sans-serif;cursor:pointer; }
+.cart-actions { display:grid;gap:9px; }
+.send-order,.continue-order { width:100%;border:0;border-radius:9px;padding:13px;font:800 12px Montserrat,Arial,sans-serif;cursor:pointer; }
+.send-order { display:block;text-align:center;text-decoration:none;background:var(--yellow);color:#000; }
+.continue-order { border:1px solid #444;background:#1b1b1b;color:#fff; }
+.send-order[aria-disabled="true"] { opacity:.45;cursor:not-allowed; }
+@media(max-width:700px) { .cart-dialog { position:fixed;top:auto;bottom:0;margin:0;width:100%;max-width:none;max-height:88dvh;border-radius:18px 18px 0 0; }.cart-dialog-inner { max-height:88dvh;padding:20px 16px calc(18px + env(safe-area-inset-bottom)); } }
+
+@media(max-width:700px) {
+  .item-note {
+    min-height: 42px;
+    font-size: 12px;
+  }
+}
+
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <img class="logo" src="logo-kiosk-beach.png" alt="Kiosk Beach">
+    <div>
+      <div class="brand">KIOSK <span>BEACH</span></div>
+      <div class="subtitle">Cardápio digital</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Escolha seu <span>pedido</span></h1>
+    <p>Confira nosso cardápio, veja os preços e faça seu pedido pelo WhatsApp.</p>
+    <div class="search">
+      <span>⌕</span>
+      <input id="search" type="search" placeholder="Buscar no cardápio...">
+    </div>
+  </section>
+
+  
+
+<section class="delivery-box" id="deliveryBox">
+  <div class="delivery-title">📍 Seus dados</div>
+  <p>Para entrega, preencha e confirme o endereço. Se preferir retirar, escolha essa opção ao finalizar o pedido.</p>
+
+  <div class="delivery-fields">
+    <input id="customerName" type="text" placeholder="Seu nome" aria-label="Seu nome" autocomplete="name">
+    <input id="customerAddress" type="text" placeholder="Endereço e número" aria-label="Endereço e número" autocomplete="street-address">
+    <input id="customerComplement" type="text" placeholder="Bairro / complemento" aria-label="Bairro ou complemento" autocomplete="address-line2">
+  </div>
+
+  <button type="button" class="confirm-address" id="confirmAddress" onclick="confirmDelivery()">
+    ✓ Confirmar endereço
+  </button>
+
+  <div class="confirmed-address" id="confirmedAddress" role="status" aria-live="polite">
+    <div class="confirmed-icon">OK</div>
+    <div>
+      <strong>Endereço confirmado</strong>
+      <span id="confirmedText"></span>
+    </div>
+    <button type="button" onclick="editDelivery()">Editar</button>
+  </div>
+
+  <div id="deliveryWarning" class="delivery-warning" role="alert">
+    Preencha seu nome e endereço e confirme os dados para continuar.
+  </div>
+</section>
+
+
+  <nav class="filters" id="filters">
+    <button class="filter active" data-filter="Todos">Todos</button>
+    <button class="filter" data-filter="Cachorro-quente">Cachorro-quente</button><button class="filter" data-filter="Refrigerantes">Refrigerantes</button><button class="filter" data-filter="Sucos de polpa">Sucos de polpa</button><button class="filter" data-filter="Cervejas">Cervejas</button><button class="filter" data-filter="Lanches prensados">Lanches prensados</button><button class="filter" data-filter="Shawarma">Shawarma</button><button class="filter" data-filter="Porções">Porções</button>
+  </nav>
+
+  <div class="menu" id="menu">
+    
+    <section class="category" data-category="Cachorro-quente">
+      <div class="category-title"><span>Cachorro-quente</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="cachorro quente simples pão de cachorro quente, salsicha, maionese, tomate, milho, ervilha e batata palha">
+          <div class="item-main">
+            <h3>Cachorro quente simples</h3>
+            <p class="desc">Pão de cachorro quente, salsicha, maionese, tomate, milho, ervilha e batata palha</p>
+          </div>
+          <div class="price">R$20</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Cachorro quente simples">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="cachorro quente duplo pão de cachorro quente, 2 salsichas, maionese, tomate, milho, ervilha e batata palha">
+          <div class="item-main">
+            <h3>Cachorro quente duplo</h3>
+            <p class="desc">Pão de cachorro quente, 2 salsichas, maionese, tomate, milho, ervilha e batata palha</p>
+          </div>
+          <div class="price">R$24</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Cachorro quente duplo">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="cachorro quente triplo pão de cachorro quente, 3 salsichas, maionese, tomate, milho, ervilha e batata palha">
+          <div class="item-main">
+            <h3>Cachorro quente triplo</h3>
+            <p class="desc">Pão de cachorro quente, 3 salsichas, maionese, tomate, milho, ervilha e batata palha</p>
+          </div>
+          <div class="price">R$28</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Cachorro quente triplo">Pedir</button>
+        </article>
+        </div>
+      
+      
+    </section>
+    
+    <section class="category" data-category="Refrigerantes">
+      <div class="category-title"><span>Refrigerantes</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="água ">
+          <div class="item-main">
+            <h3>Água</h3>
+            
+          </div>
+          <div class="price">R$4</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Água">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="suco kapo ">
+          <div class="item-main">
+            <h3>Suco Kapo</h3>
+            
+          </div>
+          <div class="price">R$5</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Suco Kapo">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="coca lata ">
+          <div class="item-main">
+            <h3>Coca lata</h3>
+            
+          </div>
+          <div class="price">R$6</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Coca lata">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="kuat lata ">
+          <div class="item-main">
+            <h3>Kuat lata</h3>
+            
+          </div>
+          <div class="price">R$6</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Kuat lata">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="fanta lata ">
+          <div class="item-main">
+            <h3>Fanta lata</h3>
+            
+          </div>
+          <div class="price">R$6</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Fanta lata">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="sprite lata ">
+          <div class="item-main">
+            <h3>Sprite lata</h3>
+            
+          </div>
+          <div class="price">R$6</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Sprite lata">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="coca 600 ml ">
+          <div class="item-main">
+            <h3>Coca 600 ml</h3>
+            
+          </div>
+          <div class="price">R$8</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Coca 600 ml">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="coca 1 litro ">
+          <div class="item-main">
+            <h3>Coca 1 litro</h3>
+            
+          </div>
+          <div class="price">R$10</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Coca 1 litro">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="guaraná 1 litro ">
+          <div class="item-main">
+            <h3>Guaraná 1 litro</h3>
+            
+          </div>
+          <div class="price">R$10</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Guaraná 1 litro">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="coca 2 litros ">
+          <div class="item-main">
+            <h3>Coca 2 litros</h3>
+            
+          </div>
+          <div class="price">R$15</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Coca 2 litros">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="fanta laranja 2 litros ">
+          <div class="item-main">
+            <h3>Fanta laranja 2 litros</h3>
+            
+          </div>
+          <div class="price">R$15</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Fanta laranja 2 litros">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="sprite 2 litros ">
+          <div class="item-main">
+            <h3>Sprite 2 litros</h3>
+            
+          </div>
+          <div class="price">R$15</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Sprite 2 litros">Pedir</button>
+        </article>
+        </div>
+      
+      
+    </section>
+    
+    <section class="category" data-category="Sucos de polpa">
+      <div class="category-title"><span>Sucos de polpa</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="copo de suco maracujá, abacaxi c/hortelã, acerola e morango">
+          <div class="item-main">
+            <h3>Copo de suco</h3>
+            <p class="desc">Maracujá, abacaxi c/hortelã, acerola e morango</p>
+          </div>
+          <div class="price">R$8</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Copo de suco">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="jarra de suco maracujá, abacaxi c/hortelã, acerola e morango">
+          <div class="item-main">
+            <h3>Jarra de suco</h3>
+            <p class="desc">Maracujá, abacaxi c/hortelã, acerola e morango</p>
+          </div>
+          <div class="price">R$20</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Jarra de suco">Pedir</button>
+        </article>
+        </div>
+      
+      
+    </section>
+    
+    <section class="category" data-category="Cervejas">
+      <div class="category-title"><span>Cervejas</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="heineken long ">
+          <div class="item-main">
+            <h3>Heineken Long</h3>
+            
+          </div>
+          <div class="price">R$10</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Heineken Long">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="budweiser long ">
+          <div class="item-main">
+            <h3>Budweiser Long</h3>
+            
+          </div>
+          <div class="price">R$10</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Budweiser Long">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="antártica 600 ml ">
+          <div class="item-main">
+            <h3>Antártica 600 ml</h3>
+            
+          </div>
+          <div class="price">R$12</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Antártica 600 ml">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="brahma 600 ml ">
+          <div class="item-main">
+            <h3>Brahma 600 ml</h3>
+            
+          </div>
+          <div class="price">R$12</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Brahma 600 ml">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="original 600 ml ">
+          <div class="item-main">
+            <h3>Original 600 ml</h3>
+            
+          </div>
+          <div class="price">R$14</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Original 600 ml">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="heineken 600 ml ">
+          <div class="item-main">
+            <h3>Heineken 600 ml</h3>
+            
+          </div>
+          <div class="price">R$15</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Heineken 600 ml">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="chopp 500 ml ">
+          <div class="item-main">
+            <h3>Chopp 500 ml</h3>
+            
+          </div>
+          <div class="price">R$10</div>
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Chopp 500 ml">Pedir</button>
+        </article>
+        </div>
+      
+      
+    </section>
+    
+    <section class="category" data-category="Lanches prensados">
+      <div class="category-title"><span>Lanches prensados</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="x-burguer hambúrguer artesanal, presunto, queijo e maionese da casa">
+          <div class="item-main">
+            <h3>X-Burguer</h3>
+            <p class="desc">Hambúrguer artesanal, presunto, queijo e maionese da casa</p>
+          </div>
+          <div class="price">R$20</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Burguer">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-salada hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Salada</h3>
+            <p class="desc">Hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$24</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Salada">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-eggs ovo, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Eggs</h3>
+            <p class="desc">Ovo, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$25</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Eggs">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-bacon bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Bacon</h3>
+            <p class="desc">Bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$29</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Bacon">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-calabresa calabresa, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Calabresa</h3>
+            <p class="desc">Calabresa, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$29</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Calabresa">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-egg c/bacon ovo, bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Egg c/Bacon</h3>
+            <p class="desc">Ovo, bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$30</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Egg c/Bacon">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-calabresa acebolada calabresa, cebola, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Calabresa acebolada</h3>
+            <p class="desc">Calabresa, cebola, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$32</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Calabresa acebolada">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-freggs ovo, frango, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Freggs</h3>
+            <p class="desc">Ovo, frango, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$30</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Freggs">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-frango c/catupiry frango, catupiry, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Frango c/Catupiry</h3>
+            <p class="desc">Frango, catupiry, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$30</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Frango c/Catupiry">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-calabacon calabresa, bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Calabacon</h3>
+            <p class="desc">Calabresa, bacon, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$32</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Calabacon">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-fraldinha acebolado fraldinha em tiras acebolada, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Fraldinha acebolado</h3>
+            <p class="desc">Fraldinha em tiras acebolada, hambúrguer artesanal, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$35</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Fraldinha acebolado">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="x-tudo hambúrguer artesanal, bacon, calabresa, frango, presunto, queijo, alface, tomate e maionese da casa">
+          <div class="item-main">
+            <h3>X-Tudo</h3>
+            <p class="desc">Hambúrguer artesanal, bacon, calabresa, frango, presunto, queijo, alface, tomate e maionese da casa</p>
+          </div>
+          <div class="price">R$40</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="X-Tudo">Pedir</button>
+        </article>
+        </div>
+      
+      
+    </section>
+    
+    <section class="category" data-category="Shawarma">
+      <div class="category-title"><span>Shawarma</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="shawarma frango pão sírio, frango, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa">
+          <div class="item-main">
+            <h3>Shawarma frango</h3>
+            <p class="desc">Pão sírio, frango, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa</p>
+          </div>
+          <div class="price">R$30</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Shawarma frango">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="shawarma carne pão sírio, carne de gado, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa">
+          <div class="item-main">
+            <h3>Shawarma carne</h3>
+            <p class="desc">Pão sírio, carne de gado, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa</p>
+          </div>
+          <div class="price">R$32</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Shawarma carne">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="shawarma misto pão sírio, carne de gado, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa">
+          <div class="item-main">
+            <h3>Shawarma misto</h3>
+            <p class="desc">Pão sírio, carne de gado, alface, tomate, cebola roxa, repolho roxo, batata frita e maionese da casa</p>
+          </div>
+          <div class="price">R$35</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Shawarma misto">Pedir</button>
+        </article>
+        </div>
+      <p class="note">Adicionais R$ 5,00 cada.</p>
+      
+    </section>
+    
+    <section class="category" data-category="Porções">
+      <div class="category-title"><span>Porções</span><i></i></div>
+      <div class="grid">
+        <article class="item" data-search="anéis de cebola ">
+          <div class="item-main">
+            <h3>Anéis de cebola</h3>
+            
+          </div>
+          <div class="price">R$25</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Anéis de cebola">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="batata frita ">
+          <div class="item-main">
+            <h3>Batata frita</h3>
+            
+          </div>
+          <div class="price">R$35</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Batata frita">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="polenta frita ">
+          <div class="item-main">
+            <h3>Polenta frita</h3>
+            
+          </div>
+          <div class="price">R$35</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Polenta frita">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="calafritas ">
+          <div class="item-main">
+            <h3>Calafritas</h3>
+            
+          </div>
+          <div class="price">R$45</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Calafritas">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="frango a passarinho ">
+          <div class="item-main">
+            <h3>Frango a passarinho</h3>
+            
+          </div>
+          <div class="price">R$45</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Frango a passarinho">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="frango a milanesa ">
+          <div class="item-main">
+            <h3>Frango a milanesa</h3>
+            
+          </div>
+          <div class="price">R$50</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Frango a milanesa">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="costelinha de porco ">
+          <div class="item-main">
+            <h3>Costelinha de porco</h3>
+            
+          </div>
+          <div class="price">R$60</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Costelinha de porco">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="fraldinha acebolada ao molho shoyo">
+          <div class="item-main">
+            <h3>Fraldinha acebolada</h3>
+            <p class="desc">Ao molho shoyo</p>
+          </div>
+          <div class="price">R$65</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Fraldinha acebolada">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="torresmo ">
+          <div class="item-main">
+            <h3>Torresmo</h3>
+            
+          </div>
+          <div class="price">R$65</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Torresmo">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="filé de tilápia ">
+          <div class="item-main">
+            <h3>Filé de tilápia</h3>
+            
+          </div>
+          <div class="price">R$70</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Filé de tilápia">Pedir</button>
+        </article>
+        
+        <article class="item" data-search="batata com bacon, cheddar e queijo ">
+          <div class="item-main">
+            <h3>Batata com bacon, cheddar e queijo</h3>
+            
+          </div>
+          <div class="price">R$70</div>
+          <input class="item-note" type="text" placeholder="Observação (ex.: sem cebola)" aria-label="Observação para este item" maxlength="180">
+          <button type="button" class="order" onclick="makeOrder(event, this)" data-product="Batata com bacon, cheddar e queijo">Pedir</button>
+        </article>
+        </div>
+      
+      <p class="note">Temos opção de ½ porção; será cobrado metade do valor da inteira.</p>
+    </section>
+    
+    <div class="empty" id="empty">Nenhum item encontrado.</div>
+  </div>
+</main>
+<div class="cart-bar" id="cartBar" hidden>
+  <button type="button" onclick="openOrderDialog()" aria-label="Ver pedido e finalizar no WhatsApp">
+    <span id="cartCount">Ver pedido</span><strong id="cartBarTotal"></strong>
+  </button>
+</div>
+<dialog id="orderDialog" class="cart-dialog" aria-labelledby="orderTitle">
+  <div class="cart-dialog-inner">
+    <div class="cart-top"><h2 id="orderTitle">Seu pedido</h2><button type="button" class="cart-close" onclick="closeOrderDialog()" aria-label="Fechar pedido">✕</button></div>
+    <p class="cart-intro">Revise os itens e as observações antes de abrir o WhatsApp.</p>
+    <ul id="cartLines" class="cart-lines"></ul>
+    <div class="cart-total"><span>Itens</span><strong id="cartTotal">R$ 0,00</strong></div>
+    <fieldset class="fulfillment-choice">
+      <legend>Como você quer receber?</legend>
+      <div class="fulfillment-options">
+        <label><input type="radio" name="fulfillment" value="pickup">Retirar no local</label>
+        <label><input type="radio" name="fulfillment" value="delivery">Receber por entrega</label>
+      </div>
+    </fieldset>
+    <div class="fulfillment-detail" id="pickupDetail" hidden>
+      <label for="pickupName">Nome para retirada</label>
+      <input id="pickupName" type="text" autocomplete="name" placeholder="Seu nome">
+      <p>Retirada: Avenida Brasil, nº 530, bairro Baixada Amarela.</p>
+    </div>
+    <div class="fulfillment-detail" id="deliveryDetail" hidden>
+      <span id="checkoutAddressStatus">Endereço ainda não confirmado.</span><br>
+      <button type="button" id="checkoutAddressAction">Confirmar endereço</button>
+      <p>Taxa de entrega informada: R$ 5,00. Confirme o valor final no WhatsApp.</p>
+    </div>
+    <p id="cartWarning" class="delivery-warning" role="alert"></p>
+    <div class="cart-actions">
+      <a class="send-order" id="whatsappOrderLink" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Enviar pedido pelo WhatsApp</a>
+      <button type="button" class="continue-order" onclick="closeOrderDialog()">Continuar escolhendo</button>
+    </div>
+  </div>
+</dialog>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="info">
+      <strong>Delivery</strong>
+      <p>(45) 99855-5571</p>
+      <p>Taxa de entrega: R$ 5,00</p>
+      <button type="button" class="whatsapp" onclick="openOrderDialog()">Ver meu pedido</button>
+    </div>
+    <div class="info">
+      <strong>Endereço</strong>
+      <p>Avenida Brasil, nº 530</p>
+      <p>Bairro Baixada Amarela</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const search = document.getElementById('search');
+const buttons = [...document.querySelectorAll('.filter')];
+const categories = [...document.querySelectorAll('.category')];
+const empty = document.getElementById('empty');
+const money = value => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(value);
+const storageKey = 'kioskBeachDeliveryV1';
+const whatsappNumber = '5545998555571';
+let active = 'Todos';
+let confirmedDeliveryData = null;
+const cart = [];
+
+function update() {
+  const q = search.value.trim().toLocaleLowerCase('pt-BR');
+  let visible = 0;
+  categories.forEach(cat => {
+    const categoryMatch = active === 'Todos' || cat.dataset.category === active;
+    let itemCount = 0;
+    cat.querySelectorAll('.item').forEach(item => {
+      const match = categoryMatch && (!q || item.dataset.search.toLocaleLowerCase('pt-BR').includes(q));
+      item.style.display = match ? '' : 'none';
+      if (match) itemCount++;
+    });
+    cat.style.display = itemCount ? '' : 'none';
+    visible += itemCount;
+  });
+  empty.style.display = visible ? 'none' : 'block';
+}
+buttons.forEach(btn => btn.addEventListener('click', () => {
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  active = btn.dataset.filter;
+  update();
+}));
+search.addEventListener('input', update);
+
+function showDeliveryWarning(message) {
+  const warning = document.getElementById('deliveryWarning');
+  warning.textContent = message;
+  warning.style.display = 'block';
+}
+function showConfirmedDelivery(data) {
+  confirmedDeliveryData = data;
+  const fullAddress = data.complement ? `${data.address}, ${data.complement}` : data.address;
+  document.getElementById('confirmedText').textContent = `${data.name} • ${fullAddress}`;
+  document.getElementById('confirmedAddress').style.display = 'flex';
+  document.getElementById('confirmAddress').style.display = 'none';
+  document.getElementById('deliveryWarning').style.display = 'none';
+  updateFulfillment();
+}
+function confirmDelivery() {
+  const nameInput = document.getElementById('customerName');
+  const addressInput = document.getElementById('customerAddress');
+  const complementInput = document.getElementById('customerComplement');
+  const data = {
+    name:nameInput.value.trim(),
+    address:addressInput.value.trim(),
+    complement:complementInput.value.trim()
+  };
+  if (!data.name || !data.address) {
+    showDeliveryWarning('Preencha seu nome e endereço para confirmar.');
+    (data.name ? addressInput : nameInput).focus();
+    return;
+  }
+  try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch (_) { /* Confirma na sessão se o armazenamento estiver indisponível. */ }
+  showConfirmedDelivery(data);
+  if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
+}
+function editDelivery() {
+  confirmedDeliveryData = null;
+  try { localStorage.removeItem(storageKey); } catch (_) {}
+  document.getElementById('confirmedAddress').style.display = 'none';
+  document.getElementById('confirmAddress').style.display = '';
+  document.getElementById('deliveryWarning').style.display = 'none';
+  updateFulfillment();
+}
+['customerName','customerAddress','customerComplement'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    if (confirmedDeliveryData) editDelivery();
+  });
+});
+try {
+  const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+  if (saved && typeof saved.name === 'string' && saved.name.trim() && typeof saved.address === 'string' && saved.address.trim()) {
+    const data = {name:saved.name.trim(),address:saved.address.trim(),complement:typeof saved.complement === 'string' ? saved.complement.trim() : ''};
+    document.getElementById('customerName').value = data.name;
+    document.getElementById('customerAddress').value = data.address;
+    document.getElementById('customerComplement').value = data.complement;
+    showConfirmedDelivery(data);
+  }
+} catch (_) {}
+
+function renderCart() {
+  const lines = document.getElementById('cartLines');
+  lines.replaceChildren();
+  cart.forEach((entry,index) => {
+    const li = document.createElement('li');
+    li.className = 'cart-line';
+    const details = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = `${entry.quantity}× ${entry.product} — ${money(entry.price * entry.quantity)}`;
+    details.append(title);
+    if (entry.observation) {
+      const note = document.createElement('small');
+      note.textContent = `Observação: ${entry.observation}`;
+      details.append(note);
+    }
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.textContent = 'Remover';
+    remove.setAttribute('aria-label',`Remover ${entry.product} do pedido`);
+    remove.addEventListener('click', () => { cart.splice(index,1); renderCart(); });
+    li.append(details,remove);
+    lines.append(li);
+  });
+  if (!cart.length) {
+    const li = document.createElement('li');
+    li.className = 'cart-line';
+    li.textContent = 'Nenhum item no pedido. Toque em Pedir para escolher.';
+    lines.append(li);
+  }
+  const count = cart.reduce((sum, entry) => sum + entry.quantity,0);
+  const total = cart.reduce((sum, entry) => sum + entry.price * entry.quantity,0);
+  document.getElementById('cartTotal').textContent = money(total);
+  document.getElementById('cartBarTotal').textContent = money(total);
+  document.getElementById('cartCount').textContent = `Ver pedido (${count} ${count === 1 ? 'item' : 'itens'})`;
+  document.getElementById('cartBar').hidden = count === 0;
+  document.body.classList.toggle('cart-open',count > 0);
+  document.getElementById('whatsappOrderLink').setAttribute('aria-disabled',String(count === 0));
+  document.getElementById('cartWarning').style.display = 'none';
+}
+function makeOrder(event, button) {
+  event.preventDefault();
+  const item = button.closest('.item');
+  const product = button.dataset.product;
+  const observation = item.querySelector('.item-note')?.value.trim() || '';
+  const price = Number(item.querySelector('.price').textContent.replace(/[^\d,]/g,'').replace(',','.')) || 0;
+  const existing = cart.find(entry => entry.product === product && entry.observation === observation);
+  if (existing) existing.quantity++;
+  else cart.push({product,observation,price,quantity:1});
+  renderCart();
+  openOrderDialog();
+}
+function openOrderDialog() {
+  renderCart();
+  const pickupName = document.getElementById('pickupName');
+  if (!pickupName.value.trim()) pickupName.value = document.getElementById('customerName').value.trim();
+  updateFulfillment();
+  const dialog = document.getElementById('orderDialog');
+  if (!dialog.open) dialog.showModal();
+}
+function closeOrderDialog() { document.getElementById('orderDialog').close(); }
+document.getElementById('orderDialog').addEventListener('click',event => {
+  if (event.target.id === 'orderDialog') closeOrderDialog();
+});
+
+function selectedFulfillment() {
+  return document.querySelector('input[name="fulfillment"]:checked')?.value || null;
+}
+function updateFulfillment() {
+  const mode = selectedFulfillment();
+  document.getElementById('pickupDetail').hidden = mode !== 'pickup';
+  document.getElementById('deliveryDetail').hidden = mode !== 'delivery';
+  const status = document.getElementById('checkoutAddressStatus');
+  const action = document.getElementById('checkoutAddressAction');
+  const {address,complement} = confirmedDeliveryData || {};
+  status.textContent = confirmedDeliveryData
+    ? `Endereço confirmado: ${address}${complement ? `, ${complement}` : ''}`
+    : 'Endereço ainda não confirmado.';
+  action.textContent = confirmedDeliveryData ? 'Editar endereço' : 'Confirmar endereço';
+  document.getElementById('cartWarning').style.display = 'none';
+  document.getElementById('whatsappOrderLink').href = '#';
+}
+document.querySelectorAll('input[name="fulfillment"]').forEach(input => {
+  input.addEventListener('change',updateFulfillment);
+});
+document.getElementById('checkoutAddressAction').addEventListener('click',() => {
+  if (confirmedDeliveryData) editDelivery();
+  closeOrderDialog();
+  document.getElementById('deliveryBox').scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+function buildOrderMessage(mode) {
+  const name = mode === 'pickup'
+    ? document.getElementById('pickupName').value.trim()
+    : confirmedDeliveryData.name;
+  const lines = cart.map(entry => {
+    let line = `• ${entry.quantity}× ${entry.product} — ${money(entry.price * entry.quantity)}`;
+    if (entry.observation) line += `\n  Observação: ${entry.observation}`;
+    return line;
+  });
+  const delivery = mode === 'delivery';
+  const data = delivery ? confirmedDeliveryData : null;
+  const fullAddress = delivery ? `${data.address}${data.complement ? `, ${data.complement}` : ''}` : '';
+  const destination = delivery
+    ? `*Endereço de entrega:* ${fullAddress}`
+    : '*Retirada no local:* Avenida Brasil, nº 530, bairro Baixada Amarela';
+  const fee = delivery ? '\n*Taxa de entrega informada:* R$ 5,00' : '';
+  return `Olá! Gostaria de fazer um pedido no Kiosk Beach.\n\n*Tipo:* ${delivery ? 'Entrega' : 'Retirada'}\n*Cliente:* ${name}\n${destination}\n\n*Itens do pedido:*\n${lines.join('\n')}\n\n*Subtotal dos itens:* ${money(cart.reduce((sum,entry) => sum + entry.price * entry.quantity,0))}${fee}\n\nPor favor, confirme meu pedido e o valor final.`;
+}
+document.getElementById('whatsappOrderLink').addEventListener('click', event => {
+  if (!cart.length) {
+    event.preventDefault();
+    return;
+  }
+  const mode = selectedFulfillment();
+  const warning = document.getElementById('cartWarning');
+  if (!mode) {
+    event.preventDefault();
+    warning.textContent = 'Escolha retirada ou entrega para continuar.';
+    warning.style.display = 'block';
+    return;
+  }
+  if (mode === 'pickup' && !document.getElementById('pickupName').value.trim()) {
+    event.preventDefault();
+    warning.textContent = 'Informe seu nome para a retirada.';
+    warning.style.display = 'block';
+    document.getElementById('pickupName').focus();
+    return;
+  }
+  if (mode === 'delivery' && !confirmedDeliveryData) {
+    event.preventDefault();
+    warning.textContent = 'Confirme seu nome e endereço antes de enviar para entrega.';
+    warning.style.display = 'block';
+    return;
+  }
+  // O link nativo abre pelo toque do cliente, inclusive em navegadores móveis.
+  event.currentTarget.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildOrderMessage(mode))}`;
+});
+renderCart();
+
+</script>
+</body>
+</html>
